@@ -199,6 +199,7 @@ static const char * const prog_type_name[] = {
 	[BPF_PROG_TYPE_EXT]			= "ext",
 	[BPF_PROG_TYPE_LSM]			= "lsm",
 	[BPF_PROG_TYPE_SK_LOOKUP]		= "sk_lookup",
+	[BPF_PROG_TYPE_IOURING]		= "iouring",
 	[BPF_PROG_TYPE_SYSCALL]			= "syscall",
 };
 
@@ -8606,6 +8607,8 @@ static const struct bpf_sec_def section_defs[] = {
 	SEC_DEF("cgroup/dev",		CGROUP_DEVICE, BPF_CGROUP_DEVICE, SEC_ATTACHABLE_OPT),
 	SEC_DEF("struct_ops+",		STRUCT_OPS, 0, SEC_NONE),
 	SEC_DEF("sk_lookup",		SK_LOOKUP, BPF_SK_LOOKUP, SEC_ATTACHABLE),
+	SEC_DEF("iouring",		IOURING, 0, SEC_NONE),
+	SEC_DEF("iouring.s",	IOURING, 0, SEC_NONE),
 };
 
 static size_t custom_sec_def_cnt;

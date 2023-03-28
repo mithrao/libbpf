@@ -985,7 +985,9 @@ enum bpf_prog_type {
 	BPF_PROG_TYPE_EXT,
 	BPF_PROG_TYPE_LSM,
 	BPF_PROG_TYPE_SK_LOOKUP,
-	BPF_PROG_TYPE_SYSCALL, /* a program that can execute syscalls */
+	BPF_PROG_TYPE_IOURING, 
+	BPF_PROG_TYPE_SYSCALL,
+	/* a program that can execute syscalls */
 };
 
 enum bpf_attach_type {
@@ -4904,6 +4906,40 @@ union bpf_attr {
  * 		Execute close syscall for given FD.
  * 	Return
  * 		A syscall result.
+ * 
+ * long bpf_copy_to_user(void *user_ptr, const void *src, u32 size)
+ * 	Description
+ * 		Read *size* bytes from *src* and store the data in user space
+ * 		address *user_ptr*. This is a wrapper of **copy_to_user**\ ().
+ * 	Return
+ * 		0 on success, or a negative error in case of failure.
+ *
+ * long bpf_io_uring_submit(void *ctx, struct io_uring_sqe *sqe, u32 size)
+ * 	Description
+ * 		Accepts *ctx*, the context of the program representing an
+ * 		io_uring instance, and submits a new request described by
+ * 		*sqe*.
+ * 	Return
+ * 		The number of submitted requests or a negative error if failed.
+ *
+ * long bpf_io_uring_emit_cqe(void *ctx, u32 cq_idx, u64 user_data, s32 res, u32 cflags)
+ * 	Description
+ * 		Posts a CQEs to a completion queue with index *cq_idx* of an
+ *		io_uring instance represented by *ctx*. The CQE content is
+ * 		described by *user_data*, *res* and *cflags*,
+ * 		see struct io_uring_cqe.
+ * 	Return
+ * 		-ENOMEM if the CQE has been dropped on the floor and counted
+ * 		as overflown. 0 in case of success, including backlogging.
+ *
+ * long bpf_io_uring_reap_cqe(void *ctx, u32 cq_idx, struct io_uring_cqe *cqe, u32 size)
+ * 	Description
+ * 		Tries to extract one CQE from a completion queue with index
+ *		*cq_idx* of io_uring instance *ctx* and place it to *cqe*.
+ * 	Return
+ *		0 on success.
+ *		**-ENOENT** if there is no CQE in the CQ.]
+ *		**-EINVAL** in case of invalid input, e.g. invalid CQ index.
  *
  * long bpf_timer_init(struct bpf_timer *timer, struct bpf_map *map, u64 flags)
  *	Description
