@@ -17652,7 +17652,7 @@ enum bpf_prog_type {
 	BPF_PROG_TYPE_LSM = 29,
 	BPF_PROG_TYPE_SK_LOOKUP = 30,
 	BPF_PROG_TYPE_SYSCALL = 31,
-	BPF_PROG_TYPE_IOURING = 32,
+	BPF_PROG_TYPE_CQRING = 32,
 };
 
 enum bpf_attach_type {
