@@ -985,7 +985,7 @@ enum bpf_prog_type {
 	BPF_PROG_TYPE_EXT,
 	BPF_PROG_TYPE_LSM,
 	BPF_PROG_TYPE_SK_LOOKUP,
-	BPF_PROG_TYPE_IOURING, 
+	BPF_PROG_TYPE_CQRING, 
 	BPF_PROG_TYPE_SYSCALL,
 	/* a program that can execute syscalls */
 };
